@@ -1,3 +1,35 @@
+/* App.css */
+
+.recordListContainer {
+  text-align: center;
+}
+
+.recordTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.recordTable th,
+.recordTable td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.createButton {
+  background-color: green;
+  color: white;
+}
+
+.editButton {
+  background-color: yellow;
+  margin-right: 5px;
+}
+
+.deleteButton {
+  background-color: red;
+}
+
 .App {
   text-align: center;
 }
