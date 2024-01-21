@@ -1,17 +1,28 @@
-/* App.css */
-
 .recordListContainer {
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .recordTable {
-  width: 100%;
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
   border-collapse: collapse;
-  margin-top: 10px;
+  font-size: 1em;
+  font-family: sans-serif;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  padding: 20px; /* Adjust the padding to make the table larger */
+  width: 80%; /* Adjust the width to make the table wider */
 }
 
-.recordTable th,
+.recordTable th {
+  background-color: lightgray;
+}
+
 .recordTable td {
+  background-color: skyblue;
+  color: #black;
+  text-align: center;
   padding: 8px;
   border: 1px solid #ddd;
 }
@@ -19,6 +30,8 @@
 .createButton {
   background-color: green;
   color: white;
+  padding: 1px;
+  margin-bottom: 20px; /* Adjust the value based on the space you want */
 }
 
 .editButton {
