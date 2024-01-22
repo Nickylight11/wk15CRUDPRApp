@@ -9,6 +9,12 @@ const RecordList = () => {
   const [weightLifted, setWeightLifted] = useState("");
   const [repetitions, setRepetitions] = useState("");
   const [date, setDate] = useState("");
+  const [editRecordId, setEditRecordId] = useState(null);
+  const [editExerciseType, setEditExerciseType] = useState("");
+  const [editWeightLifted, setEditWeightLifted] = useState("");
+  const [editRepetitions, setEditRepetitions] = useState("");
+  const [editDate, setEditDate] = useState("");
+  const [showEditForm, setShowEditForm] = useState(false);
 
   useEffect(() => {
     // Fetch records from the Mock API when the component mounts
@@ -77,10 +83,140 @@ const RecordList = () => {
       }
     }
   };
-  let showEditForm = true;
+
+  const handleDeleteRecord = async (id) => {
+    try {
+      // Send DELETE request to Mock API
+      await axios.delete(
+        `https://65aad8b6081bd82e1d97e451.mockapi.io/CRUDPRApp/${id}`
+      );
+
+      // Fetch records again after deleting a record
+      const response = await axios.get(
+        "https://65aad8b6081bd82e1d97e451.mockapi.io/CRUDPRApp"
+      );
+
+      // Set state with the updated records
+      setRecords(response.data);
+    } catch (error) {
+      console.error("Error deleting record:", error.message);
+
+      // Check for error response from the API
+      if (error.response) {
+        console.log("API Response (Error):", error.response.data);
+      }
+    }
+  };
+
+  const handleEditRecord = (record) => {
+    // Set state with the details of the record being edited
+    setEditRecordId(record.id);
+    setEditExerciseType(record.exerciseType);
+    setEditWeightLifted(String(record.weightLifted));
+    setEditRepetitions(String(record.repetitions));
+    setEditDate(record.date);
+
+    // Show the edit form
+    setShowEditForm(true);
+  };
+
+  const handleUpdateRecord = async () => {
+    try {
+      // Validate input
+      if (
+        !editExerciseType ||
+        !editWeightLifted ||
+        !editRepetitions ||
+        !editDate
+      ) {
+        console.error("All fields are required.");
+        return;
+      }
+
+      // Create updated record object
+      const updatedRecord = {
+        exerciseType: editExerciseType,
+        weightLifted: parseFloat(editWeightLifted),
+        repetitions: parseInt(editRepetitions),
+        date: editDate,
+      };
+
+      // Send PUT request to Mock API to update the record
+      await axios.put(
+        `https://65aad8b6081bd82e1d97e451.mockapi.io/CRUDPRApp/${editRecordId}`,
+        updatedRecord
+      );
+
+      // Fetch records again after updating the record
+      const response = await axios.get(
+        "https://65aad8b6081bd82e1d97e451.mockapi.io/CRUDPRApp"
+      );
+
+      // Set state with the updated records
+      setRecords(response.data);
+
+      // Hide the edit form
+      setShowEditForm(false);
+
+      // Reset state variables for the record being edited
+      setEditRecordId(null);
+      setEditExerciseType("");
+      setEditWeightLifted("");
+      setEditRepetitions("");
+      setEditDate("");
+    } catch (error) {
+      console.error("Error updating record:", error.message);
+
+      // Check for error response from the API
+      if (error.response) {
+        console.log("API Response (Error):", error.response.data);
+      }
+    }
+  };
+
   return (
     <div className="recordListContainer">
       <h2>Weightlifting Records</h2>
+      {/* Edit form display */}
+      {showEditForm && (
+        <div className="editFormContainer">
+          <h3>Edit Record</h3>
+          <form>
+            <label>Exercise Type:</label>
+            <input
+              type="text"
+              value={editExerciseType}
+              onChange={(e) => setEditExerciseType(e.target.value)}
+            />
+
+            <label>Weight Lifted:</label>
+            <input
+              type="text"
+              value={editWeightLifted}
+              onChange={(e) => setEditWeightLifted(e.target.value)}
+            />
+
+            <label>Repetitions:</label>
+            <input
+              type="text"
+              value={editRepetitions}
+              onChange={(e) => setEditRepetitions(e.target.value)}
+            />
+
+            <label>Date:</label>
+            <input
+              type="text"
+              value={editDate}
+              onChange={(e) => setEditDate(e.target.value)}
+            />
+
+            <button type="button" onClick={handleUpdateRecord}>
+              Update Record
+            </button>
+          </form>
+        </div>
+      )}
+
       {/* Create Record Form */}
       <div>
         <form>
@@ -117,6 +253,7 @@ const RecordList = () => {
           </button>
         </form>
       </div>
+
       {/* Record List Table */}
       <table className="recordTable">
         <thead>
@@ -138,16 +275,23 @@ const RecordList = () => {
               <td>{record.repetitions}</td>
               <td>{record.date}</td>
               <td>
-                <button className="editButton">Edit</button>
-                <button className="deleteButton">Delete</button>
+                <button
+                  className="editButton"
+                  onClick={() => handleEditRecord(record)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="deleteButton"
+                  onClick={() => handleDeleteRecord(record.id)}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      {/* edit form display-begin */}
-      {showEditForm ? <div>Showing edit form...</div> : <></>}
-      {/* edit form end */}
     </div>
   );
 };
