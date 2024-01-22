@@ -77,7 +77,7 @@ const RecordList = () => {
       }
     }
   };
-
+  let showEditForm = true;
   return (
     <div className="recordListContainer">
       <h2>Weightlifting Records</h2>
@@ -138,17 +138,16 @@ const RecordList = () => {
               <td>{record.repetitions}</td>
               <td>{record.date}</td>
               <td>
-                <Link to={`/edit/${record.id}`}>
-                  <button className="editButton">Edit</button>
-                </Link>
-                <Link to={`/delete/${record.id}`}>
-                  <button className="deleteButton">Delete</button>
-                </Link>
+                <button className="editButton">Edit</button>
+                <button className="deleteButton">Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {/* edit form display-begin */}
+      {showEditForm ? <div>Showing edit form...</div> : <></>}
+      {/* edit form end */}
     </div>
   );
 };

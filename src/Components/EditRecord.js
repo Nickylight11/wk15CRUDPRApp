@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 const EditRecord = () => {
   const { id } = useParams();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const [record, setRecord] = useState(null);
 
   useEffect(() => {
@@ -21,17 +21,30 @@ const EditRecord = () => {
     };
 
     fetchRecordDetails();
-  }, [id]); // Make sure to include 'id' as a dependency
+  }, [id]);
 
-  const handleUpdateRecord = async () => {
+  const handleUpdateRecord = async (updatedData) => {
+    console.log("Checking for updated data", updatedData);
     try {
-      // Perform update logic here
-      console.log("Updating record:", record);
+      const response = await axios.put(
+        `https://65aad8b6081bd82e1d97e451.mockapi.io/CRUDPRApp/${id}`,
+        updatedData
+      );
 
-      // Redirect to the record list page or another appropriate location
-      history.push("/");
+      // Check if the update was successful
+      if (response.status === 200) {
+        console.log("Record updated successfully");
+        // Redirect to the record list page or another appropriate location
+        navigate("/");
+      } else {
+        console.error(
+          "Failed to update record. Server responded with:",
+          response
+        );
+      }
     } catch (error) {
       console.error("Error updating record:", error.message);
+      console.error("Error stack trace:", error.stack);
     }
   };
 
