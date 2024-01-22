@@ -11,8 +11,9 @@ const EditRecord = () => {
     const fetchRecordDetails = async () => {
       try {
         const response = await axios.get(
-          `https://65aad8b6081bd82e1d97e451.mockapi.io/CRUDPRApp${id}`
+          `https://65aad8b6081bd82e1d97e451.mockapi.io/CRUDPRApp/${id}`
         );
+
         setRecord(response.data);
       } catch (error) {
         console.error("Error fetching record details:", error.message);

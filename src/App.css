@@ -11,8 +11,8 @@
   font-size: 1em;
   font-family: sans-serif;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  padding: 20px; /* Adjust the padding to make the table larger */
-  width: 80%; /* Adjust the width to make the table wider */
+  padding: 20px;
+  width: 80%;
 }
 
 .recordTable th {
@@ -31,16 +31,20 @@
   background-color: green;
   color: white;
   padding: 1px;
-  margin-bottom: 20px; /* Adjust the value based on the space you want */
+  margin-bottom: 20px;
 }
 
 .editButton {
-  background-color: yellow;
+  background-color: gold;
   margin-right: 5px;
+  font-size: 16px;
+  width: 100px;
 }
 
 .deleteButton {
-  background-color: red;
+  background-color: crimson;
+  font-size: 16px;
+  width: 100px;
 }
 
 .App {
